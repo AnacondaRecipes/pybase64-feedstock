@@ -12,7 +12,7 @@ source:
 
 build:
   number: 1
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   entry_points:
     - pybase64=pybase64.__main__:main
 
@@ -22,10 +22,13 @@ requirements:
   host:
     - python
     - pip
+    - wheel
   run:
     - python
 
 test:
+  commands:
+    - pip check
   imports:
     - pybase64
 
@@ -39,5 +42,10 @@ about:
   dev_url: https://github.com/mayeut/pybase64/
 
 extra:
+  anaconda-services:
+    ref: https://anaconda.zendesk.com/agent/tickets/49522
+    reason: Dependency for vllm v0.10.0
+  recipe-maintainers:
+    - ianaobi
   recipe-maintainers:
     - njzjz
