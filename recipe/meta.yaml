@@ -33,6 +33,10 @@ requirements:
 test:
   imports:
     - pybase64
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
   home: https://github.com/mayeut/pybase64/
