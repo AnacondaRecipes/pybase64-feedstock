@@ -1,6 +1,6 @@
 {% set name = "pybase64" %}
-{% set version = "1.2.3" %}
-{% set sha256 = "76d074df9a7b989b3589926ab1946677bbb399ecfe230714b13157e2633611ed" %}
+{% set version = "1.4.3" %}
+{% set sha256 = "c2ed274c9e0ba9c8f9c4083cfe265e66dd679126cd9c2027965d807352f3f053" %}
 
 package:
   name: {{ name|lower }}
@@ -11,23 +11,32 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  skip: true # [py<310]
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - pybase64=pybase64.__main__:main
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib('c') }}
+
   host:
     - python
     - pip
+    - setuptools
+    - wheel
   run:
     - python
 
 test:
   imports:
     - pybase64
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
   home: https://github.com/mayeut/pybase64/
@@ -35,6 +44,9 @@ about:
   license_family: BSD
   license_file: LICENSE
   summary: Fast Base64 encoding/decoding in Python
+  description: |
+    This project is a wrapper on libbase64. It aims to provide a fast base64 implementation for 
+    base64 encoding/decoding using the same interface as Python's base64 modern interface.
   doc_url: https://github.com/mayeut/pybase64/
   dev_url: https://github.com/mayeut/pybase64/
 
